@@ -13,8 +13,16 @@ DB_NAME = os.getenv("DB_NAME")
 PORT = os.getenv("PORT")
 
 
-database_url=f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"
+def get_db():
+    db = sessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+database_url = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"
 
 engine = create_engine(database_url)
-sessionLocal=sessionmaker(autoflush=False, autocommit= False, bind=engine)
+sessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 base = declarative_base()

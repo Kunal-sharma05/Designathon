@@ -1,18 +1,10 @@
 from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from db.database import sessionLocal
+from db.database import get_db
 from models.user import UserDetails
 from schemas.user import UserDetailsRequest
 from core import security
-
-
-def get_db():
-    db = sessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 db_dependency = Annotated[Session, Depends(get_db)]
