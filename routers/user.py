@@ -1,9 +1,7 @@
 from datetime import timedelta
 
 from fastapi import APIRouter, Depends, status, HTTPException, Query, Path
-
 from crud import user as user_service
-from models import user as user_model
 from sqlalchemy.orm import Session
 from typing import Annotated
 from db.database import sessionLocal
@@ -35,9 +33,7 @@ async def read_all(db: db_dependency):
 
 #post method
 @router.post("/user_details", status_code=status.HTTP_201_CREATED)
-async def create_user(user: Annotated[dict, Depends(security.get_current_user)], user_details_request: UserDetailsRequest, db: db_dependency):
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User is not authorized")
+async def create_user(user_details_request: UserDetailsRequest, db: db_dependency):
     user_service.add_user(user_details_request, db)
 
 

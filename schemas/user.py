@@ -1,4 +1,6 @@
 from pydantic import BaseModel, Field
+from models.user_role import UserRole
+
 
 class UserDetailsRequest(BaseModel):
     name: str = Field(min_length=5)
@@ -7,4 +9,4 @@ class UserDetailsRequest(BaseModel):
                                                                                                                 The domain name is followed by a dot and a top-level domain (TLD) with at least two characters.""")
     password: str = Field(min_length=8, pattern="^[A-Za-z0-9]{8,}$", description="""The password is at least 8 characters long.
                                                                     It contains at least one letter and one number.""")
-    role: str = Field(min_length=4)
+    role: UserRole

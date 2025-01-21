@@ -5,8 +5,6 @@ from db.database import get_db
 from models.test_report import TestReport
 from schemas.test_report import TestReportRequest
 
-
-
 db_dependency = Annotated[Session, Depends(get_db)]
 
 
