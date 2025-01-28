@@ -13,7 +13,7 @@ app = FastAPI()
 base.metadata.create_all(bind=engine)
 
 
-app.include_router(user_router,tags=["User"])
+app.include_router(user_router, tags=["User"])
 app.include_router(vocabulary_router, tags=["Vocabulary Lessons"])
 app.include_router(practice_router, tags=["Practice Test"])
 app.include_router(pronunciation_router, tags=["Pronunciation Lesson"])

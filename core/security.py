@@ -42,7 +42,8 @@ async def authenticate_user(email: str, password: str, db: db_dependency):
 
 
 def hashing_password(password: str):
-    bcrypt_context.hash(password)
+    password = bcrypt_context.hash(password)
+    return password
 
 
 async def create_access_token(email: str, user_id: int, expires_delta: timedelta):

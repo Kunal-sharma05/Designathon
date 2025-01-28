@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, status, HTTPException, Path, Query
 from sqlalchemy.orm import Session
 from typing import Annotated, List
 from core.security import get_current_user
+import requests
 
 from crud import speech_lesson as speech_lesson_service
 from schemas.speech_lesson import SpeechLessonRequest
@@ -42,3 +43,4 @@ async def delete_speech_lesson(user: Annotated[dict, Depends(get_current_user)],
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User is not authorized")
     speech_lesson_service.delete_speech_lesson_by_id(lesson_id, db)
+
