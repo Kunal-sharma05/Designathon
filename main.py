@@ -7,11 +7,23 @@ from routers.practice_test import router as practice_router
 from routers.test_report import router as test_router
 from routers.pronunciation_lesson import router as pronunciation_router
 from db.database import base
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-base.metadata.create_all(bind=engine)
+origins = [
+    "http://localhost:3000",
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+base.metadata.create_all(bind=engine)
 
 app.include_router(user_router, tags=["User"])
 app.include_router(vocabulary_router, tags=["Vocabulary Lessons"])

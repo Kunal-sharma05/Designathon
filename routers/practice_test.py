@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, status, HTTPException, Path, Query
 from sqlalchemy.orm import Session
 from typing import Annotated, List
 from core.security import get_current_user
-
 from crud import practice_test as practice_test_service
 from schemas.practice_test import PracticeTestRequest
 from db.database import get_db

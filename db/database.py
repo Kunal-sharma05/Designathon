@@ -21,7 +21,7 @@ def get_db():
         db.close()
 
 
-database_url = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"
+database_url = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"# mysql+pymysql://root:kunal%401234@localhost:3000/softskill
 
 engine = create_engine(database_url)
 sessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)

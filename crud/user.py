@@ -27,8 +27,6 @@ def add_user(user_request: UserDetailsRequest, db: db_dependency):
     user = UserDetails(**user_request.model_dump())
     password=user_request.password
     user.password = security.hashing_password(password)
-    print(user_request.password)
-    print(security.hashing_password(password))
     db.add(user)
     db.commit()
 

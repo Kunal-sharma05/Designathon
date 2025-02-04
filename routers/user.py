@@ -7,9 +7,10 @@ from typing import Annotated
 from db.database import sessionLocal
 from core import security
 from fastapi.security import OAuth2PasswordRequestForm
-
 from schemas.token import Token
 from schemas.user import UserDetailsRequest
+from models.user import UserDetails
+
 
 router = APIRouter()
 
@@ -60,3 +61,24 @@ async def login_form(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     print(user)
     token = await security.create_access_token(user.email, user.id, timedelta(minutes=20))
     return {'access_token': token, 'token_type': 'bearer'}
+
+
+@router.post("/verify-email", status_code=status.HTTP_200_OK)
+async def verify_email(email: str, db: Session = Depends(get_db)):
+    user = db.query(UserDetails).filter(UserDetails.email == email).first()  # Use UserDetails model
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Email not found")
+    else:
+        return {"message": "Email verified. You can proceed to reset your password."}
+
+@router.put("/reset-password", status_code=status.HTTP_200_OK)
+async def reset_password(email: str, new_password: str, db: Session = Depends(get_db)):
+    user = db.query(UserDetails).filter(UserDetails.email == email).first()  # Use UserDetails model
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid email")
+
+    # Update the user's password
+    user.password = security.hashing_password(new_password)
+    db.commit()
+
+    return {"message": "Password has been reset successfully."}
